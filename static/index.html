@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Regulatory Navigator - MVP</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width:900px; margin:40px auto; }
+    button { padding:10px 16px; font-size:16px }
+    #score { font-size:56px; font-weight:700; color:#2c7; }
+    .fail { color:#c33 }
+    .pass { color:#2a9 }
+    table { width:100%; border-collapse:collapse; margin-top:12px }
+    th, td { padding:8px; border:1px solid #ddd; text-align:left }
+    .recs { margin-top:16px }
+    .spinner { display:inline-block; width:18px; height:18px; border:3px solid #ccc; border-top-color:#333; border-radius:50%; animation:spin 1s linear infinite }
+    @keyframes spin { to { transform:rotate(360deg) } }
+  </style>
+</head>
+<body>
+  <h1>Regulatory Navigator — MVP</h1>
+  <p>Demo page: press the button to run the assessment using the mocked AI extraction and hardcoded rules.</p>
+
+  <div>
+    <button id="runBtn">Run Assessment</button>
+    <span id="status" style="margin-left:12px"></span>
+  </div>
+
+  <h2>Readiness Score</h2>
+  <div id="score">—</div>
+
+  <h2>Score Breakdown</h2>
+  <table id="breakdown">
+    <thead>
+      <tr><th>Check</th><th>Status</th><th>Weight (%)</th><th>Score Contribution</th></tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <h2>Recommendations</h2>
+  <div id="recs" class="recs">
+    <em>No recommendations yet.</em>
+  </div>
+
+  <script>
+    const runBtn = document.getElementById('runBtn');
+    const status = document.getElementById('status');
+    const scoreEl = document.getElementById('score');
+    const breakdownBody = document.querySelector('#breakdown tbody');
+    const recsEl = document.getElementById('recs');
+
+    async function runAssessment() {
+      status.innerHTML = '<span class="spinner"></span> Running...';
+      scoreEl.textContent = '—';
+      breakdownBody.innerHTML = '';
+      recsEl.innerHTML = '';
+
+      try {
+        const resp = await fetch('/api/scorecard', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ documents: 'mock' })
+        });
+        if (!resp.ok) throw new Error('Server returned ' + resp.status);
+        const data = await resp.json();
+
+        // Score
+        scoreEl.textContent = data.readiness_score;
+
+        // Breakdown
+        breakdownBody.innerHTML = '';
+        for (const row of data.score_breakdown) {
+          const tr = document.createElement('tr');
+          const statusCls = row.status === 'PASS' ? 'pass' : 'fail';
+          tr.innerHTML = `
+            <td>${row.check}</td>
+            <td class="${statusCls}">${row.status}</td>
+            <td>${row.weight.toFixed(0)}</td>
+            <td>${row.score_contribution.toFixed(0)}</td>
+          `;
+          breakdownBody.appendChild(tr);
+        }
+
+        // Recommendations
+        recsEl.innerHTML = '';
+        if (!data.recommendations || data.recommendations.length === 0) {
+          recsEl.innerHTML = '<em>No recommendations found.</em>';
+        } else {
+          for (const rec of data.recommendations) {
+            const container = document.createElement('div');
+            const gap = document.createElement('h4');
+            gap.textContent = rec.gap;
+            container.appendChild(gap);
+
+            if (!rec.resources || rec.resources.length === 0) {
+              const p = document.createElement('p');
+              p.innerHTML = '<em>No resource matches in the mapping file.</em>';
+              container.appendChild(p);
+            } else {
+              const ul = document.createElement('ul');
+              for (const r of rec.resources) {
+                const li = document.createElement('li');
+                li.innerHTML = `<strong>${r.name}</strong> (${r.type}) — ${r.contact || 'no contact'} `;
+                ul.appendChild(li);
+              }
+              container.appendChild(ul);
+            }
+
+            recsEl.appendChild(container);
+          }
+        }
+
+        status.textContent = 'Done';
+      } catch (err) {
+        console.error(err);
+        status.textContent = 'Error: ' + (err.message || err);
+        scoreEl.textContent = '—';
+      }
+    }
+
+    runBtn.addEventListener('click', runAssessment);
+  </script>
+</body>
+</html>
