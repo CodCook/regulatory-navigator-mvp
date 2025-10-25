@@ -4,121 +4,126 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Regulatory Navigator - MVP</title>
-  <style>
-    body { font-family: Arial, sans-serif; max-width:900px; margin:40px auto; }
-    button { padding:10px 16px; font-size:16px }
-    #score { font-size:56px; font-weight:700; color:#2c7; }
-    .fail { color:#c33 }
-    .pass { color:#2a9 }
-    table { width:100%; border-collapse:collapse; margin-top:12px }
-    th, td { padding:8px; border:1px solid #ddd; text-align:left }
-    .recs { margin-top:16px }
-    .spinner { display:inline-block; width:18px; height:18px; border:3px solid #ccc; border-top-color:#333; border-radius:50%; animation:spin 1s linear infinite }
-    @keyframes spin { to { transform:rotate(360deg) } }
-  </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/styles.css">
 </head>
 <body>
-  <h1>Regulatory Navigator — MVP</h1>
-  <p>Demo page: press the button to run the assessment using the mocked AI extraction and hardcoded rules.</p>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="logo">QDB</div>
+        <div>
+          <div style="font-weight:700">Regulatory Navigator</div>
+          <div style="opacity:.8; font-size:12px">FinTech AI</div>
+        </div>
+      </div>
+      <nav class="nav">
+        <a href="#" data-page="dashboard" class="active">Dashboard</a>
+        <a href="#" data-page="reports">Reports</a>
+      </nav>
+      <div style="margin-top:16px; font-size:12px; opacity:.85">Theme: QDB Purple / Magenta</div>
+    </aside>
+    <div class="main">
+      <div class="header">
+        <div class="header-title">QDB Regulatory Readiness Evaluator</div>
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <label for="countrySelect" style="font-size: 14px; font-weight: 600; color: #333;">Country:</label>
+            <select id="countrySelect" class="country-select">
+              <option value="qatar" selected>🇶🇦 Qatar</option>
+              <option value="uae">🇦🇪 UAE</option>
+              <option value="saudi">🇸🇦 Saudi Arabia</option>
+            </select>
+          </div>
+          <button class="btn btn-ghost" id="downloadPdfBtn">Download PDF</button>
+          <button class="btn btn-primary" id="runBtnTop">Analyze Text</button>
+        </div>
+      </div>
+      <div class="content">
 
-  <div>
-    <button id="runBtn">Run Assessment</button>
-    <span id="status" style="margin-left:12px"></span>
+        <!-- Dashboard Section -->
+        <section id="page-dashboard" class="section active">
+          <div class="cards" style="margin-bottom:16px">
+            <div class="card">
+              <h3>Readiness Score</h3>
+              <div class="score-wrap">
+                <div id="score">—</div>
+                <div class="score-bar" aria-hidden>
+                  <div id="scoreFill" class="score-fill"></div>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <h3>Failed Checks</h3>
+              <div id="failedChecks" style="font-size:28px; font-weight:700">—</div>
+            </div>
+            <div class="card">
+              <h3>Passed Checks</h3>
+              <div id="passedChecks" style="font-size:28px; font-weight:700">—</div>
+            </div>
+          </div>
+
+          <div class="advisory"><strong>Advisory:</strong> This tool provides automated, heuristic-based guidance for demonstration purposes only. It is not a substitute for formal legal or regulatory advice. Please consult a qualified compliance expert before regulatory submissions.</div>
+
+          <div class="card" style="margin-top:16px">
+            <h3>Analyze Startup Documents</h3>
+            <p>Paste the startup documents (or a summary) below or upload files.</p>
+            <textarea id="docsInput" rows="8" placeholder="Paste combined startup documents here (business plan, AoA excerpts, AML policy, data residency statements, etc.)"></textarea>
+            <div style="margin-top:10px">
+              <button class="btn btn-ghost" id="loadSampleBtn">Load Sample Text</button>
+              <button class="btn btn-primary" id="runBtn">Analyze Text</button>
+              <label style="margin-left:8px; display:inline-block">
+                <input type="file" id="fileInput" multiple accept=".pdf,.docx,.txt" style="display:none" />
+                <span id="fileInputLabel" class="btn btn-ghost">Choose Files…</span>
+              </label>
+              <button class="btn" id="runFilesBtn">Analyze Files</button>
+              <span id="status" style="margin-left:12px"></span>
+            </div>
+          </div>
+
+          <div style="margin-top:16px" class="cards">
+            <div class="card" style="grid-column:1/-1">
+              <h3>Score Breakdown</h3>
+              <table id="breakdown">
+                <thead>
+                  <tr><th>Check</th><th>Status</th><th>Weight (%)</th><th>Score Contribution</th></tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+            <div class="card" style="grid-column:1/-1">
+              <h3>Recommendations</h3>
+              <div id="recs" class="recs"><em>No recommendations yet.</em></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Reports Section -->
+        <section id="page-reports" class="section">
+          <div class="card">
+            <h3>Export</h3>
+            <p>Generate a PDF report with your latest score and recommendations.</p>
+            <button class="btn btn-primary" id="downloadPdfBtn2">Download PDF report</button>
+          </div>
+        </section>
+
+      </div>
+    </div>
   </div>
 
-  <h2>Readiness Score</h2>
-  <div id="score">—</div>
-
-  <h2>Score Breakdown</h2>
-  <table id="breakdown">
-    <thead>
-      <tr><th>Check</th><th>Status</th><th>Weight (%)</th><th>Score Contribution</th></tr>
-    </thead>
-    <tbody></tbody>
-  </table>
-
-  <h2>Recommendations</h2>
-  <div id="recs" class="recs">
-    <em>No recommendations yet.</em>
+  <!-- Regulation Modal -->
+  <div id="modalRoot" style="display:none">
+    <div class="modal-overlay" id="modalOverlay">
+      <div class="modal" role="dialog" aria-modal="true">
+        <button id="modalClose" style="float:right">Close</button>
+        <h3 id="modalTitle">Article</h3>
+        <pre id="modalBody"></pre>
+      </div>
+    </div>
   </div>
 
-  <script>
-    const runBtn = document.getElementById('runBtn');
-    const status = document.getElementById('status');
-    const scoreEl = document.getElementById('score');
-    const breakdownBody = document.querySelector('#breakdown tbody');
-    const recsEl = document.getElementById('recs');
-
-    async function runAssessment() {
-      status.innerHTML = '<span class="spinner"></span> Running...';
-      scoreEl.textContent = '—';
-      breakdownBody.innerHTML = '';
-      recsEl.innerHTML = '';
-
-      try {
-        const resp = await fetch('/api/scorecard', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ documents: 'mock' })
-        });
-        if (!resp.ok) throw new Error('Server returned ' + resp.status);
-        const data = await resp.json();
-
-        // Score
-        scoreEl.textContent = data.readiness_score;
-
-        // Breakdown
-        breakdownBody.innerHTML = '';
-        for (const row of data.score_breakdown) {
-          const tr = document.createElement('tr');
-          const statusCls = row.status === 'PASS' ? 'pass' : 'fail';
-          tr.innerHTML = `
-            <td>${row.check}</td>
-            <td class="${statusCls}">${row.status}</td>
-            <td>${row.weight.toFixed(0)}</td>
-            <td>${row.score_contribution.toFixed(0)}</td>
-          `;
-          breakdownBody.appendChild(tr);
-        }
-
-        // Recommendations
-        recsEl.innerHTML = '';
-        if (!data.recommendations || data.recommendations.length === 0) {
-          recsEl.innerHTML = '<em>No recommendations found.</em>';
-        } else {
-          for (const rec of data.recommendations) {
-            const container = document.createElement('div');
-            const gap = document.createElement('h4');
-            gap.textContent = rec.gap;
-            container.appendChild(gap);
-
-            if (!rec.resources || rec.resources.length === 0) {
-              const p = document.createElement('p');
-              p.innerHTML = '<em>No resource matches in the mapping file.</em>';
-              container.appendChild(p);
-            } else {
-              const ul = document.createElement('ul');
-              for (const r of rec.resources) {
-                const li = document.createElement('li');
-                li.innerHTML = `<strong>${r.name}</strong> (${r.type}) — ${r.contact || 'no contact'} `;
-                ul.appendChild(li);
-              }
-              container.appendChild(ul);
-            }
-
-            recsEl.appendChild(container);
-          }
-        }
-
-        status.textContent = 'Done';
-      } catch (err) {
-        console.error(err);
-        status.textContent = 'Error: ' + (err.message || err);
-        scoreEl.textContent = '—';
-      }
-    }
-
-    runBtn.addEventListener('click', runAssessment);
-  </script>
+  <script src="/static/app.js"></script>
 </body>
 </html>

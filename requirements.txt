@@ -1,0 +1,7 @@
+flask
+spacy
+requests
+reportlab
+PyPDF2
+python-docx
+pytest

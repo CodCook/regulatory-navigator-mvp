@@ -1,18 +1,4 @@
 {
-  "qdb_programs": [
-    {
-      "program_id": "QDB_INCUBATOR_001",
-      "program_name": "Fintech Regulatory Accelerator",
-      "focus_areas": ["Licensing Strategy", "Corporate Structure", "QCB Engagement"],
-      "eligibility": "Pre-license stage startups"
-    },
-    {
-      "program_id": "QDB_EXPERT_002",
-      "program_name": "AML Compliance Workshop Series",
-      "focus_areas": ["AML Policy Drafting", "Transaction Monitoring", "FATF Compliance"],
-      "eligibility": "Startups with high-risk profile"
-    }
-  ],
   "compliance_experts": [
     {
       "expert_id": "EXPERT_C101",
@@ -26,5 +12,133 @@
       "specialization": "AML/CFT Policy Drafting and Training (QCB Article 1.1.4)",
       "contact": "k.hassan@amlconsulting.qa"
     }
-  ]
+  ],
+  "topic_resources": {
+    "Data Retention Shortfall": [
+      {
+        "id": "RES_DR_001",
+        "title": "QCB Regulatory Framework Portal - Data Protection Guidelines",
+        "type": "regulation",
+        "description": "Official QCB regulations on data retention requirements for financial institutions, requiring 10-year retention for transaction records.",
+        "link": "https://www.qcb.gov.qa/en/regulations"
+      },
+      {
+        "id": "RES_DR_002",
+        "title": "Data Retention Policy Template (10-year compliant)",
+        "type": "template",
+        "description": "A template policy and retention schedule aligned to QCB Article 2.1.3 recommending a 10-year retention period for transaction records.",
+        "link": "https://www.score.org/resource/business-plan-template"
+      }
+    ],
+    "P2P Monitoring Gap": [
+      {
+        "id": "RES_P2P_001",
+        "title": "FATF Recommendations - Transaction Monitoring",
+        "type": "regulation",
+        "description": "Global standards for transaction monitoring and suspicious activity detection in P2P financial services.",
+        "link": "https://www.fatf-gafi.org/recommendations.html"
+      },
+      {
+        "id": "RES_P2P_002",
+        "title": "QCB Fintech Strategy - Transaction Monitoring Requirements",
+        "type": "guide",
+        "description": "QCB guidelines on implementing transaction monitoring systems for fintech platforms and P2P lending services.",
+        "link": "https://www.qcb.gov.qa/en/fintech"
+      }
+    ],
+    "Data Residency": [
+      {
+        "id": "RES_DR_010",
+        "title": "QCB Regulatory Framework - Data Residency Requirements",
+        "type": "regulation",
+        "description": "Official QCB regulations requiring customer data to be stored and processed within the State of Qatar.",
+        "link": "https://www.qcb.gov.qa/en/regulations"
+      },
+      {
+        "id": "RES_DR_011",
+        "title": "QCB Fintech Strategy - Cloud Usage Guidelines",
+        "type": "guide",
+        "description": "Guidelines on cloud adoption for fintech firms, including data residency and sovereignty requirements.",
+        "link": "https://www.qcb.gov.qa/en/fintech"
+      }
+    ],
+    "Transaction Monitoring": [
+      {
+        "id": "RES_TM_010",
+        "title": "FATF AML/CFT Guidelines - Transaction Monitoring",
+        "type": "regulation",
+        "description": "International standards for anti-money laundering and counter-financing of terrorism compliance, including transaction monitoring controls.",
+        "link": "https://www.fatf-gafi.org/recommendations.html"
+      },
+      {
+        "id": "RES_TM_011",
+        "title": "QFCRA Rulebook - AML Controls",
+        "type": "regulation",
+        "description": "Qatar Financial Centre Regulatory Authority rules on transaction monitoring and AML controls for financial services.",
+        "link": "https://www.qfcra.com/rules-regulations"
+      }
+    ],
+    "Licensing Strategy": [
+      {
+        "id": "RES_LS_001",
+        "title": "QCB Regulatory Framework - Licensing Requirements",
+        "type": "regulation",
+        "description": "Complete guide to QCB licensing categories, capital requirements, and application procedures for fintech firms.",
+        "link": "https://www.qcb.gov.qa/en/regulations"
+      },
+      {
+        "id": "RES_LS_002",
+        "title": "QDB Support Services - Licensing Advisory",
+        "type": "program",
+        "description": "Qatar Development Bank programs offering guidance and support for startups navigating QCB licensing requirements.",
+        "link": "https://www.qdb.qa/en/qdb-support-services"
+      },
+      {
+        "id": "RES_LS_003",
+        "title": "Magnitt Qatar Fintech Report - Licensing Benchmarks",
+        "type": "research",
+        "description": "Regional fintech landscape report showing licensing approaches and success factors for Qatar-based fintechs.",
+        "link": "https://magnitt.com/reports/qatar"
+      }
+    ],
+    "Corporate Structure": [
+      {
+        "id": "RES_CS_001",
+        "title": "QCB Regulatory Framework - Corporate Governance",
+        "type": "regulation",
+        "description": "Official requirements for board structure, compliance officer roles, and fit-and-proper documentation for financial institutions.",
+        "link": "https://www.qcb.gov.qa/en/regulations"
+      },
+      {
+        "id": "RES_CS_002",
+        "title": "Generic Startup Legal Documents Template",
+        "type": "template",
+        "description": "Standard templates for Articles of Association, board resolutions, and corporate governance documentation.",
+        "link": "https://www.score.org/resource/business-plan-template"
+      }
+    ],
+    "AML Policy Drafting": [
+      {
+        "id": "RES_AML_001",
+        "title": "FATF Recommendations - AML/CFT Standards",
+        "type": "regulation",
+        "description": "The global standard for anti-money laundering and counter-financing of terrorism that Qatar financial institutions must comply with.",
+        "link": "https://www.fatf-gafi.org/recommendations.html"
+      },
+      {
+        "id": "RES_AML_002",
+        "title": "QCB AML/CFT Policy Requirements",
+        "type": "regulation",
+        "description": "Qatar Central Bank requirements for board-approved AML/CFT policies and procedures for licensed financial institutions.",
+        "link": "https://www.qcb.gov.qa/en/regulations"
+      },
+      {
+        "id": "RES_AML_003",
+        "title": "Example AML Policy Template",
+        "type": "template",
+        "description": "Comprehensive AML/CFT policy template designed for fintech startups, including KYC procedures and suspicious activity reporting.",
+        "link": "https://www.score.org/resource/business-plan-template"
+      }
+    ]
+  }
 }

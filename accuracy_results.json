@@ -1,0 +1,58 @@
+{
+  "overall_metrics": {
+    "accuracy": "100.00%",
+    "precision": "95.83%",
+    "recall": "100.00%",
+    "f1_score": "97.87%",
+    "correct_fields": 48,
+    "total_fields": 48
+  },
+  "per_field_accuracy": {
+    "paid_up_capital": "100.00%",
+    "business_categories": "100.00%",
+    "data_storage_location": "100.00%",
+    "has_compliance_officer": "100.00%",
+    "has_board_approved_aml": "100.00%",
+    "has_signed_aoa": "100.00%",
+    "has_10_year_retention": "100.00%",
+    "has_p2p_monitoring_system": "100.00%"
+  },
+  "test_cases": [
+    {
+      "name": "Al-Ameen Digital (Original Mock)",
+      "accuracy": "100.00%",
+      "correct": 8,
+      "total": 8
+    },
+    {
+      "name": "PayQatar - Compliant Fintech",
+      "accuracy": "100.00%",
+      "correct": 8,
+      "total": 8
+    },
+    {
+      "name": "LendHub - P2P Platform",
+      "accuracy": "100.00%",
+      "correct": 8,
+      "total": 8
+    },
+    {
+      "name": "FinTech Innovators - Multi-Service",
+      "accuracy": "100.00%",
+      "correct": 8,
+      "total": 8
+    },
+    {
+      "name": "CryptoDoha - Non-Compliant Startup",
+      "accuracy": "100.00%",
+      "correct": 8,
+      "total": 8
+    },
+    {
+      "name": "QatarPay Solutions - Partially Compliant",
+      "accuracy": "100.00%",
+      "correct": 8,
+      "total": 8
+    }
+  ]
+}

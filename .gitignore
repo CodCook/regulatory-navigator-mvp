@@ -1,0 +1,47 @@
+# Python virtual environments
+venv/
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage
+.coverage
+.tox/
+.pytest_cache/
+
+# IDEs and editors
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# macOS
+.DS_Store
+
+# Environment variables
+.env
+.env.*
+
+# Database
+*.sqlite3
+
+# Logs
+*.log
+
+# Node
+node_modules/
+
+# Misc
+*.swp
+Thumbs.db
