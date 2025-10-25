@@ -1,0 +1,23 @@
+{
+	"REGULATORY_CHECKS": {
+		"Capital Shortfall": {"resource_topic": "Licensing Strategy"},
+		"Data Residency Failure": {"resource_topic": "Data Residency"},
+		"Compliance Officer Missing": {"resource_topic": "Corporate Structure"},
+		"AML/CFT Policy Gap": {"resource_topic": "AML Policy Drafting"},
+		"AoA Submission": {"resource_topic": null},
+		"Fit & Proper Docs Missing": {"resource_topic": null},
+		"Data Retention Shortfall": {"resource_topic": "Data Residency"},
+		"P2P Monitoring Gap": {"resource_topic": "Transaction Monitoring"}
+	},
+	"SECTION_WEIGHTS": {
+		"Licensing & Capital": 30,
+		"Transaction Monitoring": 25,
+		"Digital Consumer Protection": 15,
+		"Corporate Governance": 15,
+		"AML & KYC": 15
+	},
+	"REGULATORY_THRESHOLDS": {
+		"Minimum Capital (Cat 2)": 7500000,
+		"Required Data Location": "State of Qatar"
+	}
+}
