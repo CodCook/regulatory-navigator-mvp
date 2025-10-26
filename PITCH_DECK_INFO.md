@@ -1,4 +1,4 @@
-# Regulatory Navigator - Hackathon Pitch Deck Information
+# QIAS - Hackathon Pitch Deck Information
 
 ## 🎯 PRELIMINARY ROUND (4 mins + 4 mins Q&A)
 **Focus: 70% Technical + 30% Business**
@@ -30,7 +30,7 @@ The regulatory landscape requires simultaneous compliance across:
 
 **Core Innovation: AI-Powered Regulatory Mapping**
 
-**Product Name:** Regulatory Navigator MVP
+**Product Name:** QIAS MVP
 
 **Key Features:**
 1. **Automated Document Ingestion**
@@ -413,7 +413,7 @@ Freemium Model:
 
 **What if Fatima could know ALL compliance gaps in 2 minutes, for FREE?**
 
-➡️ **That's Regulatory Navigator.**
+➡️ **That's QIAS.**
 
 ---
 
@@ -421,7 +421,7 @@ Freemium Model:
 
 **Our Solution:**
 
-**Regulatory Navigator** = AI-Powered Compliance Co-Pilot for Fintech Startups
+**QIAS** = AI-Powered Compliance Co-Pilot for Fintech Startups
 
 **How It Works (User Journey):**
 

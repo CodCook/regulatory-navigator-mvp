@@ -1,4 +1,4 @@
-/* QDB Regulatory Navigator - Application Logic */
+/* QDB QIAS - Application Logic */
 
 (function () {
   // Wait for DOM

@@ -1,4 +1,4 @@
-# Regulatory Navigator — MVP
+# QIAS — MVP
 
 This repository contains a prototype MVP for a Regulatory Readiness Evaluator targeted at fintech startups. The application accepts startup documents (or pasted text), extracts structured facts using a light NLP extractor, runs a rule-driven gap analysis against configurable regulatory checks, computes a weighted readiness score, and returns mapped resources and regulatory text for transparency.
 
