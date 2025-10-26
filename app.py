@@ -13,7 +13,6 @@ app = Flask(__name__)
 
 # --- GLOBAL DATA STRUCTURES (Loaded from Mock JSON) ---
 RESOURCE_MAPPING = {}
-
 # --- FINTECH SPECIALIST RULE DEFINITIONS (Loaded from external config) ---
 # These are populated at startup from `rules_config.json` by load_rules().
 REGULATORY_CHECKS = {}
@@ -147,40 +146,58 @@ def map_startup_data():
 
 # --- TASK 2.1: Gap Analysis Engine ---
 def run_gap_analysis(extracted_data):
-    """Compares startup data against regulatory thresholds to identify FAILs."""
+    """Evaluate extracted data against rules and return a list of failed checks (gaps).
+
+    Requirements implemented:
+    - Capital Shortfall: FAIL if paid_up_capital < 7,500,000 (from rules_config).
+    - Data Residency Failure: FAIL unless any location indicates Qatar (accepts 'State of Qatar' or 'Qatar').
+    - Compliance Officer Missing: FAIL if has_compliance_officer is False.
+    - AML/CFT Policy Gap: FAIL if has_board_approved_aml is False.
+    - Fit & Proper Docs Missing: FAIL if Compliance Officer Missing fails.
+    - Data Retention Shortfall: FAIL if has_10_year_retention is False.
+    - P2P Monitoring Gap: FAIL if has_p2p_monitoring_system is False.
+    - AoA Submission is modeled as a PASS by omission (no gap added when present).
+    """
     gaps = []
-    
-    # Check 1: Capital Shortfall (Requires QAR 7.5M for P2P)
-    if extracted_data.get('paid_up_capital', 0) < REGULATORY_THRESHOLDS["Minimum Capital (Cat 2)"]:
+
+    # 1) Capital Shortfall
+    try:
+        min_cap = int(REGULATORY_THRESHOLDS.get("Minimum Capital (Cat 2)", 7500000))
+    except Exception:
+        min_cap = 7500000
+    if int(extracted_data.get('paid_up_capital', 0) or 0) < min_cap:
         gaps.append("Capital Shortfall")
-        
-    # Check 2: Data Residency Failure
-    if not any(loc == REGULATORY_THRESHOLDS["Required Data Location"] for loc in extracted_data.get('data_storage_location', [])):
+
+    # 2) Data Residency Failure
+    locs = extracted_data.get('data_storage_location', []) or []
+    locs = [str(l) for l in locs]
+    required_loc = str(REGULATORY_THRESHOLDS.get("Required Data Location", "State of Qatar")).lower()
+    has_required_exact = any((l or '').lower() == required_loc for l in locs)
+    has_qatar = any('qatar' in (l or '').lower() for l in locs)
+    if not (has_required_exact or has_qatar):
         gaps.append("Data Residency Failure")
-        
-    # Check 3: Compliance Officer Missing (Must be designated & independent)
-    if not extracted_data.get('has_compliance_officer', False): 
+
+    # 3) Compliance Officer Missing
+    if not bool(extracted_data.get('has_compliance_officer', False)):
         gaps.append("Compliance Officer Missing")
-        
-    # Check 4: AML/CFT Policy Gap (Must be board-approved)
-    if not extracted_data.get('has_board_approved_aml', False):
+
+    # 4) AML/CFT Policy Gap
+    if not bool(extracted_data.get('has_board_approved_aml', False)):
         gaps.append("AML/CFT Policy Gap")
-        
-    # Check 5: Fit & Proper Docs Missing (Implied failure due to no CO)
+
+    # 5) Fit & Proper Docs Missing (depends on CO failure)
     if "Compliance Officer Missing" in gaps:
         gaps.append("Fit & Proper Docs Missing")
 
-    # Check 6: AoA Submission (Must be signed AoA)
-    # This is a PASS based on the mock data, so we don't add a gap if TRUE
-    
-    # New P2 checks (Product P2 additions)
-    # Data Retention: regulator requires 10 years; Al-Ameen's doc says 7 years -> flag if not 10
-    if not extracted_data.get('has_10_year_retention', False):
-        gaps.append('Data Retention Shortfall')
+    # 6) AoA Submission: treated as PASS by omission
 
-    # P2P Monitoring System: must be deployed/operational for marketplaces
-    if not extracted_data.get('has_p2p_monitoring_system', False):
-        gaps.append('P2P Monitoring Gap')
+    # 7) Data Retention Shortfall
+    if not bool(extracted_data.get('has_10_year_retention', False)):
+        gaps.append("Data Retention Shortfall")
+
+    # 8) P2P Monitoring Gap
+    if not bool(extracted_data.get('has_p2p_monitoring_system', False)):
+        gaps.append("P2P Monitoring Gap")
 
     return gaps
 
